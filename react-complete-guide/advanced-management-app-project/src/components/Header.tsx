@@ -2,26 +2,21 @@ import React, { useRef } from 'react';
 import CartModal, { CartModalHandles } from './CartModal';
 import { CartItem } from "../interfaces";
 
-
-// Define the shape of the cart
 interface Cart {
     items: CartItem[];
 }
 
-// Define the props expected by the Header component
 interface HeaderProps {
     cart: Cart;
     onUpdateCartItemQuantity: (id: string, amount: number) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({cart, onUpdateCartItemQuantity}) => {
-    // Correctly type the modal ref to use the CartModalHandles interface
     const modalRef = useRef<CartModalHandles>(null);
 
     const cartQuantity = cart.items.length;
 
     function handleOpenCartClick() {
-        // Use optional chaining to safely call the open method
         modalRef.current?.open();
     }
 

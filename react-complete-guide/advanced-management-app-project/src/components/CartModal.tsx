@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import Cart from './Cart'; // Assume Cart is a TypeScript file (.tsx)
+import Cart from './Cart';
 
 interface CartModalProps {
     cartItems: { id: string; name: string; price: number; quantity: number }[];
@@ -26,8 +26,6 @@ const CartModal = forwardRef<CartModalHandles, CartModalProps>(function Modal(
     }));
 
     if (!document.getElementById('modal-root')) {
-        // This is a fallback to ensure that there's a div with the id 'modal-root' in the document.
-        // Normally, you would have a div with id 'modal-root' in your index.html where all modals will be portaled to.
         const div = document.createElement('div');
         div.id = 'modal-root';
         document.body.appendChild(div);
@@ -41,7 +39,7 @@ const CartModal = forwardRef<CartModalHandles, CartModalProps>(function Modal(
                 {actions}
             </form>
         </dialog>,
-        document.getElementById('modal')!
+        document.getElementById('modal-root')!
     );
 });
 

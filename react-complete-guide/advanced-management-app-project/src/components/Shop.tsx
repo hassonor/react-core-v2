@@ -2,7 +2,6 @@ import React from 'react';
 import { DUMMY_PRODUCTS } from '../dummy-products';
 import Product from './Product';
 
-// Assuming each product in DUMMY_PRODUCTS has this shape
 interface ProductData {
     id: string;
     image: string;
@@ -11,9 +10,8 @@ interface ProductData {
     description: string;
 }
 
-// Define the type for the props expected by the Shop component
 interface ShopProps {
-    onAddItemToCart: (id: string) => void; // or any other parameters the function might take
+    onAddItemToCart: (id: string) => void;
 }
 
 const Shop: React.FC<ShopProps> = ({onAddItemToCart}) => {
