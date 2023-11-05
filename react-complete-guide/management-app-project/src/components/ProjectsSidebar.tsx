@@ -7,7 +7,7 @@ interface ProjectsSidebarProps {
     onStartAddProject: () => void;
     projects: Project[];
     onSelectProject: (projectId: number) => void;
-    selectedProjectId?: number;
+    selectedProjectId: number;
 }
 
 const ProjectsSidebar: React.FC<ProjectsSidebarProps> = ({

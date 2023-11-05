@@ -12,8 +12,10 @@ export interface Project {
     dueDate: string;
 }
 
-interface Task {
-    // define the properties for a task
+export interface Task {
+    text: string,
+    projectId: number,
+    id: number
 }
 
 // Define the shape of the state that will be used within the App component
@@ -23,10 +25,6 @@ interface ProjectState {
     tasks: Task[];
 }
 
-// Define the shape of the new project data that will be added
-interface NewProjectData {
-    // properties that are needed to create a new project, excluding the 'id'
-}
 
 function App() {
     const [projectState, setProjectsState] = useState<ProjectState>({
@@ -35,7 +33,31 @@ function App() {
         tasks: []
     });
 
-    // Define the functions with parameter types and return types if necessary
+    function handleAddTask(text: string): void {
+        setProjectsState((prevState) => {
+            const taskId = Math.random();
+            const newTask: Task = {
+                text,
+                projectId: prevState.selectedProjectId as number,
+                id: taskId
+            };
+            return {
+                ...prevState,
+                tasks: [newTask, ...prevState.tasks]
+            };
+        });
+
+    }
+
+    function handleDeleteTask(taskId: number) {
+        setProjectsState((prevState) => ({
+            ...prevState,
+            tasks: prevState.tasks.filter(
+                (task) => task.id !== taskId
+            ),
+        }));
+
+    }
 
     function handleSelectProject(projectId: number): void {
         setProjectsState((prevState) => ({
@@ -58,7 +80,7 @@ function App() {
         }));
     }
 
-    function handleAddProject(projectData: NewProjectData): void {
+    function handleAddProject(projectData: Partial<Project>): void {
         setProjectsState((prevState) => {
             const newProject = {
                 ...projectData,
@@ -96,7 +118,11 @@ function App() {
         content = <NoProjectSelected onStartAddProject={handleStartAddProject}/>;
     } else {
         content = <SelectedProject project={selectedProject}
-                                   onDelete={handleDeleteProject}/>;
+                                   tasks={projectState.tasks}
+                                   onDeleteProject={handleDeleteProject}
+                                   onAddTask={handleAddTask}
+                                   onDeleteTask={handleDeleteTask}
+        />;
     }
 
 
@@ -106,6 +132,7 @@ function App() {
                 onStartAddProject={handleStartAddProject}
                 projects={projectState.projects}
                 onSelectProject={handleSelectProject}
+                selectedProjectId={projectState?.selectedProjectId!}
             />
             {content}
         </main>

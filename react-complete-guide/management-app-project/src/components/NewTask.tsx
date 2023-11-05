@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 interface NewTaskProps {
-    projectId: number;
+    onAddTask: (text: string) => void;
 }
 
-const NewTask: React.FC<NewTaskProps> = ({projectId}) => {
+const NewTask: React.FC<NewTaskProps> = ({onAddTask}) => {
     const [enteredTask, setEnteredTask] = useState<string>('');
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -12,7 +12,11 @@ const NewTask: React.FC<NewTaskProps> = ({projectId}) => {
     }
 
     function handleAddTask() {
-        // Task addition logic here, possibly requiring projectId
+        if (enteredTask.trim() === "") {
+            return;
+        }
+        onAddTask(enteredTask);
+        setEnteredTask('');
     }
 
     return (
