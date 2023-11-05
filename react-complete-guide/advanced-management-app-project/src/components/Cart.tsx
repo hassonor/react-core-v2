@@ -1,13 +1,10 @@
-import React from 'react';
-import { CartItem } from "../interfaces";
+import React, { useContext } from 'react';
+import { CartContext } from "../store/shopping-cart-context";
 
 
-interface CartProps {
-    items: CartItem[];
-    onUpdateItemQuantity: (id: string, amount: number) => void;
-}
+const Cart: React.FC = () => {
+    const {items, updateCartItemQuantity} = useContext(CartContext);
 
-const Cart: React.FC<CartProps> = ({items, onUpdateItemQuantity}) => {
     const totalPrice = items.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
@@ -29,11 +26,11 @@ const Cart: React.FC<CartProps> = ({items, onUpdateItemQuantity}) => {
                                     <span> ({formattedPrice})</span>
                                 </div>
                                 <div className="cart-item-actions">
-                                    <button onClick={() => onUpdateItemQuantity(item.id, -1)}>
+                                    <button onClick={() => updateCartItemQuantity(item.id, -1)}>
                                         -
                                     </button>
                                     <span>{item.quantity}</span>
-                                    <button onClick={() => onUpdateItemQuantity(item.id, 1)}>
+                                    <button onClick={() => updateCartItemQuantity(item.id, 1)}>
                                         +
                                     </button>
                                 </div>
