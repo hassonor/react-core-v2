@@ -4,7 +4,7 @@ import { Place } from '../types';
 interface PlacesProps {
     title: string;
     places: Place[];
-    fallbackText: string;
+    fallbackText?: string;
     onSelectPlace: (id: string) => void;
 }
 
