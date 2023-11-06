@@ -1,0 +1,14 @@
+import { log } from '../log';
+import logoImg from '../assets/logo.png';
+import { ReactElement } from "react";
+
+export default function Header(): ReactElement {
+    log('<Header /> rendered', 1);
+
+    return (
+        <header id="main-header">
+            <img src={logoImg} alt="Magnifying glass analyzing a document"/>
+            <h1>React - Behind The Scenes</h1>
+        </header>
+    );
+}
