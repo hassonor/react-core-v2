@@ -1,38 +1,33 @@
-import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalProps {
     children: React.ReactNode;
+    isOpen: boolean;
+    onClose: () => void
 }
 
-// You need to specify the type of methods you're exposing through the ref.
-export interface ModalHandles {
-    open: () => void;
-    close: () => void;
-}
 
-const Modal = forwardRef<ModalHandles, ModalProps>((props, ref) => {
+const Modal: React.FC<ModalProps> = ({isOpen, onClose, children}) => {
     const dialog = useRef<HTMLDialogElement>(null);
 
-    useImperativeHandle(ref, () => ({
-        open: () => {
-            if (dialog.current) {
+    useEffect(() => {
+        if (dialog.current) {
+            if (isOpen) {
                 dialog.current.showModal();
-            }
-        },
-        close: () => {
-            if (dialog.current) {
+            } else {
                 dialog.current.close();
             }
-        },
-    }));
+        }
+    }, [isOpen])
 
     return createPortal(
-        <dialog className="modal" ref={dialog}>
-            {props.children}
+        <dialog className="modal" ref={dialog} onClose={onClose}>
+            {children}
         </dialog>,
-        document.getElementById('modal-root') as HTMLElement
-    );
-});
+        document.getElementById('modal-root')!
+    )
+}
 
 export default Modal;
+
