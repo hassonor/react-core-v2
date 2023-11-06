@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Places from './components/Places';
 import { AVAILABLE_PLACES } from './data';
@@ -6,16 +6,35 @@ import Modal from './components/Modal';
 import DeleteConfirmation from './components/DeleteConfirmation';
 import logoImg from './assets/logo.png';
 import { Place } from './types';
+import { sortPlacesByDistance } from './loc.js'
 
 interface ModalMethods {
     open: () => void;
     close: () => void;
 }
 
+
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
+const storedPlaces = storedIds.map((id: string) => AVAILABLE_PLACES.find(place => place.id === id));
+
 function App() {
+    
     const modalRef = useRef<ModalMethods>(null);
     const selectedPlaceId = useRef<string | null>(null);
-    const [pickedPlaces, setPickedPlaces] = useState<Place[]>([]);
+    const [availablePlaces, setAvailablePlaces] = useState([]);
+    const [pickedPlaces, setPickedPlaces] = useState<Place[]>(storedPlaces);
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const sortedPlaces = sortPlacesByDistance(
+                AVAILABLE_PLACES,
+                position.coords.latitude,
+                position.coords.longitude
+            )
+            setAvailablePlaces(sortedPlaces);
+        })
+    }, [])
+
 
     function handleStartRemovePlace(id: string) {
         modalRef.current?.open();
@@ -34,6 +53,11 @@ function App() {
             const place = AVAILABLE_PLACES.find((place) => place.id === id);
             return place ? [place, ...prevPickedPlaces] : prevPickedPlaces;
         });
+
+        const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
+        if (storedIds.indexOf(id) === -1) {
+            localStorage.setItem('selectedPlaces', JSON.stringify([id, ...storedIds]));
+        }
     }
 
     function handleRemovePlace() {
@@ -43,6 +67,9 @@ function App() {
             );
         }
         modalRef.current?.close();
+
+        const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
+        localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id: string) => id !== selectedPlaceId.current)));
     }
 
     return (
@@ -68,7 +95,8 @@ function App() {
                 />
                 <Places
                     title="Available Places"
-                    places={AVAILABLE_PLACES}
+                    places={availablePlaces}
+                    fallbackText="Sorting places by distance..."
                     onSelectPlace={handleSelectPlace}
                 />
             </main>
