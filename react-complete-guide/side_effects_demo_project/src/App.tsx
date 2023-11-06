@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Places from './components/Places';
 import { AVAILABLE_PLACES } from './data';
@@ -7,12 +7,6 @@ import DeleteConfirmation from './components/DeleteConfirmation';
 import logoImg from './assets/logo.png';
 import { Place } from './types';
 import { sortPlacesByDistance } from './loc.ts'
-
-interface ModalMethods {
-    open: () => void;
-    close: () => void;
-}
-
 
 const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
 const storedPlaces = storedIds.map((id: string) => AVAILABLE_PLACES.find(place => place.id === id));
@@ -59,7 +53,7 @@ function App() {
         }
     }
 
-    function handleRemovePlace() {
+    const handleRemovePlace = useCallback(() => {
         if (selectedPlaceId.current !== null) {
             setPickedPlaces((prevPickedPlaces) =>
                 prevPickedPlaces.filter((place) => place.id !== selectedPlaceId.current)
@@ -69,8 +63,8 @@ function App() {
 
         const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
         localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id: string) => id !== selectedPlaceId.current)));
-    }
-
+    }, []);
+    
     return (
         <>
             <Modal isOpen={modalIsOpened} onClose={handleStopRemovePlace}>

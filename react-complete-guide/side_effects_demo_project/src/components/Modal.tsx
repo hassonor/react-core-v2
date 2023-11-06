@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, children}) => {
 
     return createPortal(
         <dialog className="modal" ref={dialog} onClose={onClose}>
-            {children}
+            {isOpen && children}
         </dialog>,
         document.getElementById('modal-root')!
     )
