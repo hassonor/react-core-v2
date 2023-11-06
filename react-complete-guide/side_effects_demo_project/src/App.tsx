@@ -6,7 +6,7 @@ import Modal from './components/Modal';
 import DeleteConfirmation from './components/DeleteConfirmation';
 import logoImg from './assets/logo.png';
 import { Place } from './types';
-import { sortPlacesByDistance } from './loc.js'
+import { sortPlacesByDistance } from './loc.ts'
 
 interface ModalMethods {
     open: () => void;
@@ -18,7 +18,7 @@ const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')!) || [];
 const storedPlaces = storedIds.map((id: string) => AVAILABLE_PLACES.find(place => place.id === id));
 
 function App() {
-    
+
     const modalRef = useRef<ModalMethods>(null);
     const selectedPlaceId = useRef<string | null>(null);
     const [availablePlaces, setAvailablePlaces] = useState([]);
@@ -26,7 +26,7 @@ function App() {
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
-            const sortedPlaces = sortPlacesByDistance(
+            const sortedPlaces: any = sortPlacesByDistance(
                 AVAILABLE_PLACES,
                 position.coords.latitude,
                 position.coords.longitude
