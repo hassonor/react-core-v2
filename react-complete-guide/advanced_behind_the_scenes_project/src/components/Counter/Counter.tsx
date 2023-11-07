@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { useState, FC, useCallback, useMemo } from 'react';
 
 import IconButton from '../UI/IconButton';
 import MinusIcon from '../UI/Icons/MinusIcon';
@@ -6,7 +6,6 @@ import PlusIcon from '../UI/Icons/PlusIcon';
 import CounterOutput from './CounterOutput';
 import { log } from '../../log';
 
-// Define the props type for the Counter component
 interface CounterProps {
     initialCount: number;
 }
@@ -30,19 +29,20 @@ const isPrime = (number: number): boolean => {
 };
 
 // Counter component typed with FC (Function Component) and CounterProps
-const Counter: FC<CounterProps> = ({initialCount}) => {
+const Counter: FC<CounterProps> = (({initialCount}) => {
     log('<Counter /> rendered', 1);
-    const initialCountIsPrime = isPrime(initialCount);
+
+    const initialCountIsPrime = useMemo(() => isPrime(initialCount), [initialCount]);
 
     const [counter, setCounter] = useState(initialCount);
 
-    const handleDecrement = () => {
+    const handleDecrement = useCallback(() => {
         setCounter((prevCounter) => prevCounter - 1);
-    };
+    }, []);
 
-    const handleIncrement = () => {
+    const handleIncrement = useCallback(() => {
         setCounter((prevCounter) => prevCounter + 1);
-    };
+    }, []);
 
     return (
         <section className="counter">
@@ -61,6 +61,6 @@ const Counter: FC<CounterProps> = ({initialCount}) => {
             </p>
         </section>
     );
-};
+});
 
 export default Counter;

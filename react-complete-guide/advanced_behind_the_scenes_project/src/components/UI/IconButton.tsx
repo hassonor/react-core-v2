@@ -1,5 +1,5 @@
 import { log } from '../../log';
-import React, { ReactElement, ReactNode } from 'react';
+import React, { memo, ReactElement, ReactNode } from 'react';
 
 type IconButtonProps = {
     children: ReactNode;
@@ -7,7 +7,7 @@ type IconButtonProps = {
     onClick: () => void;
 };
 
-export default function IconButton({children, icon, ...props}: IconButtonProps): ReactElement {
+export default memo(function IconButton({children, icon, ...props}: IconButtonProps): ReactElement {
     log('<IconButton /> rendered', 2);
 
     const Icon = icon;
@@ -17,4 +17,4 @@ export default function IconButton({children, icon, ...props}: IconButtonProps):
             <span className="button-text">{children}</span>
         </button>
     );
-}
+})
