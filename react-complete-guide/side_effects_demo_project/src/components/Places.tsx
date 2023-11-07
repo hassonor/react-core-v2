@@ -8,7 +8,7 @@ interface PlacesProps {
     onSelectPlace: (id: string) => void;
 }
 
-const Places: React.FC<PlacesProps> = ({title, places, fallbackText = "Error Occurred", onSelectPlace}) => {
+const Places: React.FC<PlacesProps> = ({title, places, fallbackText = "CustomError Occurred", onSelectPlace}) => {
     return (
         <section className="places-category">
             <h2>{title}</h2>
