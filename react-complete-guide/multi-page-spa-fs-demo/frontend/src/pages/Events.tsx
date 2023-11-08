@@ -1,22 +1,29 @@
-import { FC, } from 'react';
-
+import { FC } from 'react';
+import { useLoaderData } from 'react-router-dom';
 import EventsList from '../components/EventsList';
-import { useFetch } from "../hooks/useFetch.tsx";
-import { fetchEvents } from "../helpers/httpRequests.ts";
 import { TEvent } from "../types/types.ts";
+import { fetchEvents } from "../helpers/httpRequests.ts";
+
 
 const EventsPage: FC = () => {
-    const {isFetching, fetchedData, error} = useFetch<TEvent[]>(fetchEvents, []);
+    const events: TEvent[] = useLoaderData() as unknown as TEvent[];
 
     return (
         <>
-            <div style={{textAlign: 'center'}}>
-                {isFetching && <p>Loading...</p>}
-                {error && <p>{error.message}</p>}
-            </div>
-            {!isFetching && fetchedData && <EventsList events={fetchedData}/>}
+            <EventsList events={events}/>
         </>
     );
 };
 
 export default EventsPage;
+
+export async function loader() {
+    try {
+        return await fetchEvents();
+    } catch (error) {
+        throw new Response(null, {
+            status: 500,
+            statusText: 'Internal Server Error',
+        });
+    }
+}

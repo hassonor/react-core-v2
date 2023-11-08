@@ -4,7 +4,6 @@ interface EventsResponse {
     events: TEvent[];
 }
 
-// CustomError class for throwing typed errors
 export class CustomError extends Error {
     constructor(public message: string) {
         super(message);
