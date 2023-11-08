@@ -1,16 +1,15 @@
 import { FC, ReactElement } from "react";
-import { Outlet } from 'react-router-dom';
 import MainNavigation from "../components/MainNavigation.tsx";
 
-const RootLayout: FC = (): ReactElement => {
+const Error404: FC = (): ReactElement => {
     return (
         <>
             <MainNavigation/>
             <main>
-                <Outlet/>
+                <h1>404 Page Not Found</h1>
             </main>
         </>
     )
 }
 
-export default RootLayout;
+export default Error404;
