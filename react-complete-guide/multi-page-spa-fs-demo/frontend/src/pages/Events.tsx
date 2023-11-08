@@ -1,23 +1,22 @@
-import { FC, ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { FC, } from 'react';
 
-const EVENTS = [
-    {id: 'e1', title: 'Event 1'},
-    {id: 'e2', title: 'Event 2'},
-    {id: 'e3', title: 'Event 3'},
-    {id: 'e4', title: 'Event 4'},
-]
-const EventsPage: FC = (): ReactElement => {
+import EventsList from '../components/EventsList';
+import { useFetch } from "../hooks/useFetch.tsx";
+import { fetchEvents } from "../helpers/httpRequests.ts";
+import { TEvent } from "../types/types.ts";
 
+const EventsPage: FC = () => {
+    const {isFetching, fetchedData, error} = useFetch<TEvent[]>(fetchEvents, []);
 
-    return (<>
-        <h1>Events Page </h1>
-        <ul>
-            {EVENTS.map(event => {
-                return <li key={event.id}><Link to={event.id}>{event.title}</Link></li>
-            })}
-        </ul>
-    </>);
-}
+    return (
+        <>
+            <div style={{textAlign: 'center'}}>
+                {isFetching && <p>Loading...</p>}
+                {error && <p>{error.message}</p>}
+            </div>
+            {!isFetching && fetchedData && <EventsList events={fetchedData}/>}
+        </>
+    );
+};
 
 export default EventsPage;

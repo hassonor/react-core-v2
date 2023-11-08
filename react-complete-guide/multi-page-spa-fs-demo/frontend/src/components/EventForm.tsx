@@ -2,16 +2,12 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
+import { TEvent } from "../types/types.ts";
+
 
 interface EventFormProps {
     method: string;
-    event: {
-        id: string;
-        title: string;
-        image: string;
-        date: string;
-        description: string;
-    };
+    event: TEvent;
 }
 
 const EventForm: FC<EventFormProps> = ({method, event}) => {
