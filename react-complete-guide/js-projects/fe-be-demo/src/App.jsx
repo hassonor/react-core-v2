@@ -6,8 +6,7 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import AvailablePlaces from './components/AvailablePlaces.jsx';
 import {fetchUserPlaces, updateUserPlaces} from './http.js';
-import Error from './components/CustomError.jsx';
-import useFetch from './hooks/useFetch.js';
+import {useFetch} from './hooks/useFetch.js';
 import CustomError from "./components/CustomError.jsx";
 
 function App() {
