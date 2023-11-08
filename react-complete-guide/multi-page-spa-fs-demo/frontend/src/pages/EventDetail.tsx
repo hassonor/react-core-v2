@@ -1,13 +1,13 @@
 import { FC, ReactElement } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useRouteLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem.tsx";
 import { TEvent } from "../types/types.ts";
 
 const EventDetailPage: FC = (): ReactElement => {
-    const {event} = useLoaderData() as unknown as TEvent;
+    const data = useRouteLoaderData('event-detail') as unknown as { event: TEvent };
 
     return (
-        <EventItem event={event}/>
+        <EventItem event={data.event}/>
     );
 }
 
