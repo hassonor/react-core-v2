@@ -1,20 +1,21 @@
 import { ReactElement } from "react";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from "./pages/Root.tsx";
-import Error404 from "./pages/Error404.tsx";
+import CustomError from "./pages/CustomError.tsx";
 import Home from "./pages/Home.tsx";
-import EventsPage, { loader as eventsLoader } from "./pages/Events.tsx";
+import EventsPage from "./pages/Events.tsx";
 import NewEvent from "./pages/NewEvent.tsx";
 import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
+import { eventsLoader } from "./helpers/httpRequests.ts";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <RootLayout/>,
-        errorElement: <Error404/>,
+        errorElement: <CustomError/>,
         children: [
             {index: true, element: <Home/>},
             {
