@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 
 
@@ -7,8 +7,13 @@ const MainNavigation: FC = (): ReactElement => {
     return (<header className={classes.header}>
         <nav>
             <ul className={classes.list}>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/products">Products</Link></li>
+                <li><NavLink to="/" className={({isActive}) => isActive ? classes.active : undefined} end>Home</NavLink>
+                </li>
+                {/*<li><NavLink to="/" style={({isActive}) => ({textAlign: isActive ? 'center' : 'left'})}*/}
+                {/*             end>Home</NavLink>*/}
+                {/*</li>*/}
+                <li><NavLink to="/products"
+                             className={({isActive}) => isActive ? classes.active : undefined}>Products</NavLink></li>
             </ul>
         </nav>
     </header>)
