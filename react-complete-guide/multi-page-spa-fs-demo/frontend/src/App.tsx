@@ -8,7 +8,7 @@ import NewEvent from "./pages/NewEvent.tsx";
 import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
-import { eventsLoader } from "./helpers/httpRequests.ts";
+import { eventByIdLoader, eventsLoader } from "./helpers/httpRequests.ts";
 
 
 const router = createBrowserRouter([
@@ -27,7 +27,11 @@ const router = createBrowserRouter([
                         loader: eventsLoader
                     },
                     {path: 'new', element: <NewEvent/>},
-                    {path: ':eventId', element: <EventDetailPage/>},
+                    {
+                        path: ':eventId',
+                        element: <EventDetailPage/>,
+                        loader: eventByIdLoader
+                    },
                     {path: ':eventId/edit', element: <EditEventPage/>},
                 ]
             },

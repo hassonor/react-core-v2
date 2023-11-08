@@ -1,16 +1,14 @@
 import { FC, ReactElement } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
+import EventItem from "../components/EventItem.tsx";
+import { TEvent } from "../types/types.ts";
 
 const EventDetailPage: FC = (): ReactElement => {
-    const params = useParams();
+    const {event} = useLoaderData() as unknown as TEvent;
 
     return (
-        <>
-            <h1>Event Details</h1>
-            <p>Event ID: {params.eventId}</p>
-            <p><Link to=".." relative="path">Back</Link></p>
-        </>
-    )
+        <EventItem event={event}/>
+    );
 }
 
 export default EventDetailPage;
