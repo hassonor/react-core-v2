@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate, Form } from 'react-router-dom';
+import { useNavigate, useNavigation, Form } from 'react-router-dom';
 import classes from './EventForm.module.css';
 import { TEvent } from "../types/types.ts";
 
@@ -9,6 +9,9 @@ interface EventFormProps {
 
 const EventForm: FC<EventFormProps> = ({event}) => {
     const navigate = useNavigate();
+    const navigation = useNavigation();
+
+    const isSubmitting = navigation.state === 'submitting';
 
     function cancelHandler() {
         navigate('..');
@@ -34,10 +37,10 @@ const EventForm: FC<EventFormProps> = ({event}) => {
                           required/>
             </p>
             <div className={classes.actions}>
-                <button type="button" onClick={cancelHandler}>
+                <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
                     Cancel
                 </button>
-                <button>Save</button>
+                <button disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</button>
             </div>
         </Form>
     );
