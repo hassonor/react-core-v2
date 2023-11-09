@@ -8,7 +8,8 @@ import NewEvent from "./pages/NewEvent.tsx";
 import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
-import { eventByIdLoader, eventsLoader, submitAction } from "./helpers/httpRequests.ts";
+import { eventByIdLoaderAsync, eventsLoaderAsync } from "./helpers/loaders.ts";
+import { deleteEventActionAsync, submitActionAsync } from "./helpers/actions.ts";
 
 
 const router = createBrowserRouter([
@@ -24,21 +25,22 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <EventsPage/>,
-                        loader: eventsLoader
+                        loader: eventsLoaderAsync
                     },
                     {
                         path: ':eventId',
                         id: 'event-detail',
-                        loader: eventByIdLoader,
+                        loader: eventByIdLoaderAsync,
                         children: [
                             {
                                 index: true,
                                 element: <EventDetailPage/>,
+                                action: deleteEventActionAsync
                             },
                             {path: 'edit', element: <EditEventPage/>},
                         ]
                     },
-                    {path: 'new', element: <NewEvent/>, action: submitAction},
+                    {path: 'new', element: <NewEvent/>, action: submitActionAsync},
                 ]
             },
         ]

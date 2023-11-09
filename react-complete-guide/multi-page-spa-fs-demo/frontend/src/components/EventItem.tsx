@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import classes from './EventItem.module.css';
-import { Link } from "react-router-dom";
+import { Link, useSubmit } from "react-router-dom";
 
 interface EventItemProps {
     event: {
-        id: string;
+        id?: string;
         title: string;
         image: string;
         date: string;
@@ -13,9 +13,12 @@ interface EventItemProps {
 }
 
 const EventItem: FC<EventItemProps> = ({event}) => {
+    const submit = useSubmit()
     const startDeleteHandler = () => {
-        // Place logic here for handling the deletion of an event
-        console.log(`Deleting event with id: ${event.id}`);
+        const proceed = window.confirm('Are you sure?');
+        if (proceed) {
+            submit(null, {method: 'delete'});
+        }
     };
 
     return (
