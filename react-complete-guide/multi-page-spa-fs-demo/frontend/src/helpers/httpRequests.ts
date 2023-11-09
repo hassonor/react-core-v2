@@ -37,6 +37,10 @@ export async function fetchNewEventAsync(eventData: TEvent): Promise<any> {
             }
         });
 
+        if (response.status === 422) {
+            return response;
+        }
+
         if (!response.ok) {
             return json({message: `Could not fetch new event.`}, {status: 500});
         } else {

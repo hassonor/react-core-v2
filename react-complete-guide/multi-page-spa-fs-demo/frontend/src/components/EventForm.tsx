@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate, useNavigation, Form } from 'react-router-dom';
+import { useNavigate, useNavigation, Form, useActionData } from 'react-router-dom';
 import classes from './EventForm.module.css';
 import { TEvent } from "../types/types.ts";
 
@@ -8,6 +8,7 @@ interface EventFormProps {
 }
 
 const EventForm: FC<EventFormProps> = ({event}) => {
+    const data = useActionData() as unknown as any;
     const navigate = useNavigate();
     const navigation = useNavigation();
 
@@ -19,6 +20,13 @@ const EventForm: FC<EventFormProps> = ({event}) => {
 
     return (
         <Form method='post' className={classes.form}>
+            {data && data.errors && (
+                <ul>
+                    {Object.values(data.errors).map((err: any) => (
+                        <li key={err}>{err}</li>
+                    ))}
+                </ul>
+            )}
             <p>
                 <label htmlFor="title">Title</label>
                 <input id="title" type="text" name="title" defaultValue={event ? event.title : ''} required/>
