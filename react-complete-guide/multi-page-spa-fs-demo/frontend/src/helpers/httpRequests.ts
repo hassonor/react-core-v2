@@ -27,10 +27,10 @@ export async function fetchEventByIdAsync(eventId: string): Promise<any> {
     }
 }
 
-export async function fetchNewEventAsync(eventData: TEvent): Promise<any> {
+export async function fetchNewEventAsync(eventData: TEvent, method: string, url: string): Promise<any> {
     try {
-        const response = await fetch(`http://localhost:8080/events`, {
-            method: 'POST',
+        const response = await fetch(url, {
+            method: method,
             body: JSON.stringify(eventData),
             headers: {
                 'Content-Type': 'application/json'

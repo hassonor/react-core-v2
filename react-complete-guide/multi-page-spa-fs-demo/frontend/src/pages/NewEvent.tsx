@@ -6,7 +6,7 @@ const NewEventPage: FC = (): ReactElement => {
 
     return (
         <>
-            <EventForm/>
+            <EventForm method="post"/>
         </>
     )
 }

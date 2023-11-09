@@ -9,7 +9,7 @@ import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
 import { eventByIdLoaderAsync, eventsLoaderAsync } from "./helpers/loaders.ts";
-import { deleteEventActionAsync, submitActionAsync } from "./helpers/actions.ts";
+import { deleteEventActionAsync, submitOrEditActionAsync } from "./helpers/actions.ts";
 
 
 const router = createBrowserRouter([
@@ -37,10 +37,18 @@ const router = createBrowserRouter([
                                 element: <EventDetailPage/>,
                                 action: deleteEventActionAsync
                             },
-                            {path: 'edit', element: <EditEventPage/>},
+                            {
+                                path: 'edit',
+                                element: <EditEventPage/>,
+                                action: submitOrEditActionAsync
+                            },
                         ]
                     },
-                    {path: 'new', element: <NewEvent/>, action: submitActionAsync},
+                    {
+                        path: 'new',
+                        element: <NewEvent/>,
+                        action: submitOrEditActionAsync
+                    },
                 ]
             },
         ]

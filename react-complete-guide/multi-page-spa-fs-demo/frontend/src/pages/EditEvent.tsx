@@ -8,7 +8,7 @@ const EditEventPage: FC = (): ReactElement => {
 
     return (
         <>
-            <EventForm event={data.event}/>
+            <EventForm method="patch" event={data.event}/>
         </>
     )
 }

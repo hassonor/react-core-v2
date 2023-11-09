@@ -5,9 +5,10 @@ import { TEvent } from "../types/types.ts";
 
 interface EventFormProps {
     event?: TEvent;
+    method: "post" | "patch";
 }
 
-const EventForm: FC<EventFormProps> = ({event}) => {
+const EventForm: FC<EventFormProps> = ({method, event}) => {
     const data = useActionData() as unknown as any;
     const navigate = useNavigate();
     const navigation = useNavigation();
@@ -19,7 +20,7 @@ const EventForm: FC<EventFormProps> = ({event}) => {
     }
 
     return (
-        <Form method='post' className={classes.form}>
+        <Form method={method} className={classes.form}>
             {data && data.errors && (
                 <ul>
                     {Object.values(data.errors).map((err: any) => (
