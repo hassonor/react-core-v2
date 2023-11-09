@@ -1,11 +1,12 @@
 import { FC, ReactElement } from "react";
+import EventForm from "../components/EventForm.tsx";
 
 const NewEventPage: FC = (): ReactElement => {
 
 
     return (
         <>
-            <h1> NewEventPage Page</h1>
+            <EventForm/>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Form } from 'react-router-dom';
 import classes from './EventForm.module.css';
 import { TEvent } from "../types/types.ts";
 
@@ -15,7 +15,7 @@ const EventForm: FC<EventFormProps> = ({event}) => {
     }
 
     return (
-        <form className={classes.form}>
+        <Form method='post' className={classes.form}>
             <p>
                 <label htmlFor="title">Title</label>
                 <input id="title" type="text" name="title" defaultValue={event ? event.title : ''} required/>
@@ -39,7 +39,7 @@ const EventForm: FC<EventFormProps> = ({event}) => {
                 </button>
                 <button>Save</button>
             </div>
-        </form>
+        </Form>
     );
 };
 
