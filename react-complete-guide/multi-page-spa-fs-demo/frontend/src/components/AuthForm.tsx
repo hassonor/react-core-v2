@@ -6,7 +6,7 @@ import classes from './AuthForm.module.css';
 
 const AuthForm: FC = () => {
     const [searchParams] = useSearchParams();
-    const isLogin = searchParams.get('mode') === 'login';
+    const isLogin = searchParams.get('mode') === 'login' || searchParams.get('mode') === null;
     const data = useActionData() as unknown as any;
     const navigation = useNavigation();
 

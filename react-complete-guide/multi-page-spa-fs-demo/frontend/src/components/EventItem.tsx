@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import classes from './EventItem.module.css';
-import { Link, useSubmit } from "react-router-dom";
+import { Link, useRouteLoaderData, useSubmit } from "react-router-dom";
 
 interface EventItemProps {
     event: {
@@ -13,6 +13,7 @@ interface EventItemProps {
 }
 
 const EventItem: FC<EventItemProps> = ({event}) => {
+    const token = useRouteLoaderData('root') as unknown as string;
     const submit = useSubmit()
     const startDeleteHandler = () => {
         const proceed = window.confirm('Are you sure?');
@@ -27,10 +28,10 @@ const EventItem: FC<EventItemProps> = ({event}) => {
             <h1>{event.title}</h1>
             <time>{event.date}</time>
             <p>{event.description}</p>
-            <menu className={classes.actions}>
+            {token && <menu className={classes.actions}>
                 <Link to="edit">Edit</Link>
                 <button onClick={startDeleteHandler}>Delete</button>
-            </menu>
+            </menu>}
         </article>
     );
 };

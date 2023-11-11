@@ -12,17 +12,21 @@ import { eventByIdLoaderAsync, eventsLoader } from "./helpers/loaders.ts";
 import {
     authActionAsync,
     deleteEventActionAsync,
-    singUpActionAsync,
+    signUpActionAsync,
     submitOrEditActionAsync
 } from "./helpers/actions.ts";
 import NewsletterPage from "./pages/Newsletter.tsx";
 import Authentication from "./pages/Authentication.tsx";
+import { logoutAction } from "./pages/Logout.tsx";
+import { checkAuthLoader, tokenLoader } from "./utils/auth.ts";
 
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <RootLayout/>,
+        id: 'root',
+        loader: tokenLoader,
         errorElement: <CustomError/>,
         children: [
             {index: true, element: <Home/>},
@@ -47,14 +51,16 @@ const router = createBrowserRouter([
                             {
                                 path: 'edit',
                                 element: <EditEventPage/>,
-                                action: submitOrEditActionAsync
+                                action: submitOrEditActionAsync,
+                                loader: checkAuthLoader
                             },
                         ]
                     },
                     {
                         path: 'new',
                         element: <NewEvent/>,
-                        action: submitOrEditActionAsync
+                        action: submitOrEditActionAsync,
+                        loader: checkAuthLoader
                     },
                 ],
             },
@@ -66,7 +72,11 @@ const router = createBrowserRouter([
             {
                 path: 'newsletter',
                 element: <NewsletterPage/>,
-                action: singUpActionAsync,
+                action: signUpActionAsync,
+            },
+            {
+                path: 'logout',
+                action: logoutAction,
             },
         ],
     },

@@ -1,5 +1,6 @@
 import { json, redirect } from 'react-router-dom';
 import { TEvent } from "../types/types.ts";
+import { getAuthToken } from "../utils/auth.ts";
 
 export async function fetchEventsAsync(): Promise<any> {
     try {
@@ -31,11 +32,13 @@ export async function fetchEventByIdAsync(eventId: string): Promise<any> {
 
 export async function fetchNewEventAsync(eventData: TEvent, method: string, url: string): Promise<any> {
     try {
+        const token = getAuthToken();
         const response = await fetch(url, {
             method: method,
             body: JSON.stringify(eventData),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
 
@@ -56,8 +59,12 @@ export async function fetchNewEventAsync(eventData: TEvent, method: string, url:
 
 export async function deleteEventAsync(eventId: string, request: any): Promise<any> {
     try {
+        const token = getAuthToken();
         const response = await fetch(`http://localhost:8080/events/${eventId}`, {
-            method: request.method
+            method: request.method,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
 
         if (!response.ok) {
@@ -87,9 +94,17 @@ export async function authAsync(authData: { email: string, password: string }, m
 
         if (!response.ok) {
             throw json({message: `Could not authenticate`}, {status: 500});
-        } else {
-            return redirect('/');
         }
+
+        const resData = await response.json();
+        const token = resData.token;
+
+        localStorage.setItem('token', token);
+        const expiration = new Date();
+        expiration.setHours(expiration.getHours() + 1);
+        localStorage.setItem('expiration', expiration.toISOString());
+
+        return redirect('/');
 
     } catch (error) {
         return {isError: true, message: error instanceof Error ? error.message : 'An unknown error occurred'};

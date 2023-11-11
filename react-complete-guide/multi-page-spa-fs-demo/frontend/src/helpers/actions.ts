@@ -28,7 +28,7 @@ export async function deleteEventActionAsync({params, request}: any) {
     return await deleteEventAsync(eventId, request);
 }
 
-export async function singUpActionAsync({request}: any) {
+export async function signUpActionAsync({request}: any) {
     const data = await request.formData();
     const email = data.get('email');
 
@@ -39,7 +39,6 @@ export async function singUpActionAsync({request}: any) {
 
 export async function authActionAsync({request}: any) {
     const searchParams = new URL(request.url).searchParams
-
     const mode = searchParams.get('mode') || 'login';
 
     if (mode !== 'login' && mode !== 'signup') {
@@ -54,3 +53,4 @@ export async function authActionAsync({request}: any) {
 
     return await authAsync(authData, mode);
 }
+
