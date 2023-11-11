@@ -24,6 +24,16 @@ const MainNavigation: FC = () => {
                             Newsletter
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            to="/auth?mode=login"
+                            className={({isActive}) =>
+                                isActive ? classes.active : undefined
+                            }
+                        >
+                            Authentication
+                        </NavLink>
+                    </li>
                 </ul>
             </nav>
             <NewsletterSignup/>

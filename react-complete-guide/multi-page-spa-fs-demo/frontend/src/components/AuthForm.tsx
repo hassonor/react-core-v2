@@ -1,15 +1,12 @@
-import { FC, useState } from 'react';
-import { Form } from 'react-router-dom';
+import { FC } from 'react';
+import { Form, Link, useSearchParams } from 'react-router-dom';
 
 import classes from './AuthForm.module.css';
 
 
 const AuthForm: FC = () => {
-    const [isLogin, setIsLogin] = useState(true);
-
-    function switchAuthHandler() {
-        setIsLogin((isCurrentlyLogin) => !isCurrentlyLogin);
-    }
+    const [searchParams] = useSearchParams();
+    const isLogin = searchParams.get('mode') === 'login';
 
     return (
         <>
@@ -24,9 +21,9 @@ const AuthForm: FC = () => {
                     <input id="password" type="password" name="password" required/>
                 </p>
                 <div className={classes.actions}>
-                    <button onClick={switchAuthHandler} type="button">
+                    <Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
                         {isLogin ? 'Create new user' : 'Login'}
-                    </button>
+                    </Link>
                     <button>Save</button>
                 </div>
             </Form>

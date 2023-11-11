@@ -11,6 +11,7 @@ import EventRootLayout from "./pages/EventsRoot.tsx";
 import { eventByIdLoaderAsync, eventsLoader } from "./helpers/loaders.ts";
 import { deleteEventActionAsync, singUpActionAsync, submitOrEditActionAsync } from "./helpers/actions.ts";
 import NewsletterPage from "./pages/Newsletter.tsx";
+import Authentication from "./pages/Authentication.tsx";
 
 
 const router = createBrowserRouter([
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
                         action: submitOrEditActionAsync
                     },
                 ],
+            },
+            {
+                path: '/auth',
+                element: <Authentication/>
             },
             {
                 path: 'newsletter',
