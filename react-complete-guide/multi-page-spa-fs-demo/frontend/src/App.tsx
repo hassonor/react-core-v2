@@ -9,7 +9,8 @@ import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
 import { eventByIdLoaderAsync, eventsLoaderAsync } from "./helpers/loaders.ts";
-import { deleteEventActionAsync, submitOrEditActionAsync } from "./helpers/actions.ts";
+import { deleteEventActionAsync, singUpActionAsync, submitOrEditActionAsync } from "./helpers/actions.ts";
+import NewsletterPage from "./pages/Newsletter.tsx";
 
 
 const router = createBrowserRouter([
@@ -49,9 +50,14 @@ const router = createBrowserRouter([
                         element: <NewEvent/>,
                         action: submitOrEditActionAsync
                     },
-                ]
+                ],
             },
-        ]
+            {
+                path: 'newsletter',
+                element: <NewsletterPage/>,
+                action: singUpActionAsync,
+            },
+        ],
     },
 ]);
 

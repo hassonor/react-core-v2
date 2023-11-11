@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import classes from './MainNavigation.module.css';
 import { NavLink } from "react-router-dom";
+import NewsletterSignup from "./NewsletterSignup.tsx";
 
 const MainNavigation: FC = () => {
     return (
@@ -13,8 +14,19 @@ const MainNavigation: FC = () => {
                     <li><NavLink to="/events" className={({isActive}) => isActive ? classes.active : undefined}
                                  end>Events</NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            to="/newsletter"
+                            className={({isActive}) =>
+                                isActive ? classes.active : undefined
+                            }
+                        >
+                            Newsletter
+                        </NavLink>
+                    </li>
                 </ul>
             </nav>
+            <NewsletterSignup/>
         </header>
     );
 };

@@ -26,3 +26,12 @@ export async function deleteEventActionAsync({params, request}: any) {
     const eventId = params.eventId as string;
     return await deleteEventAsync(eventId, request);
 }
+
+export async function singUpActionAsync({request}: any) {
+    const data = await request.formData();
+    const email = data.get('email');
+
+    // send to backend newsletter server ...
+    console.log(email);
+    return {message: 'Signup successful!'};
+}
