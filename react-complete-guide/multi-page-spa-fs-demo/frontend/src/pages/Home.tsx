@@ -1,14 +1,13 @@
 import { FC, ReactElement } from "react";
-import { Link } from "react-router-dom";
+import PageContent from "../components/PageContent.tsx";
 
 const Home: FC = (): ReactElement => {
 
 
     return (
-        <>
-            <h1> My Home Page</h1>
-            <p> Go to <Link to="/events">the list of events</Link></p>
-        </>
+        <PageContent title="Welcome!">
+            <p>Browse all our amazing events!</p>
+        </PageContent>
     )
 }
 

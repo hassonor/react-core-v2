@@ -1,10 +1,17 @@
 import { fetchEventByIdAsync, fetchEventsAsync } from "./httpRequests.ts";
+import { defer } from "react-router-dom";
 
-export async function eventsLoaderAsync() {
-    return await fetchEventsAsync();
+export function eventsLoader(): any {
+    return defer({
+        events: fetchEventsAsync()
+    })
 }
+
 
 export async function eventByIdLoaderAsync({params}: any) {
     const eventId = params.eventId as string;
-    return await fetchEventByIdAsync(eventId);
+    return defer({
+        event: await fetchEventByIdAsync(eventId),
+        events: fetchEventsAsync()
+    })
 }

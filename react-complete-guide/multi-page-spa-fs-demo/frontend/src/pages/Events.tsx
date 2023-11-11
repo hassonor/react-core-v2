@@ -1,14 +1,17 @@
-import { FC } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { FC, Suspense } from 'react';
+import { useLoaderData, Await } from 'react-router-dom';
 import EventsList from '../components/EventsList';
-import { TEvent } from "../types/types.ts";
 
 
 const EventsPage: FC = () => {
-    const data: any = useLoaderData();
-    const events = data.events as TEvent[]
+    const {events}: any = useLoaderData();
 
-    return <EventsList events={events}/>;
+    return (
+        <Suspense fallback={<p style={{textAlign: 'center'}}>Loading...</p>}>
+            <Await resolve={events}>
+                {(loadedEvents) => <EventsList events={loadedEvents}/>}
+            </Await>
+        </Suspense>)
 };
 
 

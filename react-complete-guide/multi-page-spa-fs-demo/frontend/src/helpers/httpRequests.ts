@@ -7,7 +7,8 @@ export async function fetchEventsAsync(): Promise<any> {
         if (!response.ok) {
             return json({message: 'Could not fetch events'}, {status: 500});
         } else {
-            return response;
+            const resData = await response.json();
+            return resData.events;
         }
     } catch (error) {
         return {isError: true, message: error instanceof Error ? error.message : 'An unknown error occurred'};
@@ -20,7 +21,8 @@ export async function fetchEventByIdAsync(eventId: string): Promise<any> {
         if (!response.ok) {
             return json({message: `Could not fetch event by id ${eventId}`}, {status: 500});
         } else {
-            return response;
+            const resData = await response.json();
+            return resData.event;
         }
     } catch (error) {
         return {isError: true, message: error instanceof Error ? error.message : 'An unknown error occurred'};

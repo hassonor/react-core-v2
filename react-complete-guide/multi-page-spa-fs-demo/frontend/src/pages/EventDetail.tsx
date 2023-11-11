@@ -1,14 +1,27 @@
-import { FC, ReactElement } from "react";
-import { useRouteLoaderData } from "react-router-dom";
+import { FC, ReactElement, Suspense } from "react";
+import { Await, useRouteLoaderData } from "react-router-dom";
 import EventItem from "../components/EventItem.tsx";
 import { TEvent } from "../types/types.ts";
+import EventsList from "../components/EventsList.tsx";
 
 const EventDetailPage: FC = (): ReactElement => {
-    const data = useRouteLoaderData('event-detail') as unknown as { event: TEvent };
+    const {event, events} = useRouteLoaderData('event-detail') as unknown as { event: TEvent, events: TEvent[] };
 
     return (
-        <EventItem event={data.event}/>
+        <>
+            <Suspense fallback={<p style={{textAlign: 'center'}}>Loading...</p>}>
+                <Await resolve={event}>
+                    {(loadedEvent) => <EventItem event={loadedEvent}/>}
+                </Await>
+            </Suspense>
+            <Suspense fallback={<p style={{textAlign: 'center'}}>Loading...</p>}>
+                <Await resolve={events}>
+                    {(loadedEvents) => <EventsList events={loadedEvents}/>}
+                </Await>
+            </Suspense>
+        </>
     );
 }
 
 export default EventDetailPage;
+
