@@ -9,7 +9,12 @@ import EditEventPage from "./pages/EditEvent.tsx";
 import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
 import { eventByIdLoaderAsync, eventsLoader } from "./helpers/loaders.ts";
-import { deleteEventActionAsync, singUpActionAsync, submitOrEditActionAsync } from "./helpers/actions.ts";
+import {
+    authActionAsync,
+    deleteEventActionAsync,
+    singUpActionAsync,
+    submitOrEditActionAsync
+} from "./helpers/actions.ts";
 import NewsletterPage from "./pages/Newsletter.tsx";
 import Authentication from "./pages/Authentication.tsx";
 
@@ -55,7 +60,8 @@ const router = createBrowserRouter([
             },
             {
                 path: '/auth',
-                element: <Authentication/>
+                element: <Authentication/>,
+                action: authActionAsync
             },
             {
                 path: 'newsletter',

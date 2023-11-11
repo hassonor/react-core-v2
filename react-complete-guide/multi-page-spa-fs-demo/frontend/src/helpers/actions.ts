@@ -1,5 +1,6 @@
 import { TEvent } from "../types/types.ts";
-import { deleteEventAsync, fetchNewEventAsync } from "./httpRequests.ts";
+import { authAsync, deleteEventAsync, fetchNewEventAsync } from "./httpRequests.ts";
+import { json } from "react-router-dom";
 
 
 export async function submitOrEditActionAsync({request, params}: any) {
@@ -34,4 +35,22 @@ export async function singUpActionAsync({request}: any) {
     // send to backend newsletter server ...
     console.log(email);
     return {message: 'Signup successful!'};
+}
+
+export async function authActionAsync({request}: any) {
+    const searchParams = new URL(request.url).searchParams
+
+    const mode = searchParams.get('mode') || 'login';
+
+    if (mode !== 'login' && mode !== 'signup') {
+        throw json({message: 'Invalid mode'}, {status: 422});
+    }
+
+    const data = await request.formData();
+    const authData = {
+        email: data.get('email'),
+        password: data.get('password')
+    }
+
+    return await authAsync(authData, mode);
 }

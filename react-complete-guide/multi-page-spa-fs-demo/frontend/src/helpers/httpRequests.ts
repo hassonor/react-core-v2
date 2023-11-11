@@ -5,7 +5,7 @@ export async function fetchEventsAsync(): Promise<any> {
     try {
         const response = await fetch('http://localhost:8080/events');
         if (!response.ok) {
-            return json({message: 'Could not fetch events'}, {status: 500});
+            throw json({message: 'Could not fetch events'}, {status: 500});
         } else {
             const resData = await response.json();
             return resData.events;
@@ -19,7 +19,7 @@ export async function fetchEventByIdAsync(eventId: string): Promise<any> {
     try {
         const response = await fetch(`http://localhost:8080/events/${eventId}`);
         if (!response.ok) {
-            return json({message: `Could not fetch event by id ${eventId}`}, {status: 500});
+            throw json({message: `Could not fetch event by id ${eventId}`}, {status: 500});
         } else {
             const resData = await response.json();
             return resData.event;
@@ -44,7 +44,7 @@ export async function fetchNewEventAsync(eventData: TEvent, method: string, url:
         }
 
         if (!response.ok) {
-            return json({message: `Could not fetch new event.`}, {status: 500});
+            throw json({message: `Could not fetch new event.`}, {status: 500});
         } else {
             return redirect('/events');
         }
@@ -61,10 +61,36 @@ export async function deleteEventAsync(eventId: string, request: any): Promise<a
         });
 
         if (!response.ok) {
-            return json({message: `Could not fetch delete event by id ${eventId}`}, {status: 500});
+            throw json({message: `Could not fetch delete event by id ${eventId}`}, {status: 500});
         } else {
             return redirect('/events');
         }
+    } catch (error) {
+        return {isError: true, message: error instanceof Error ? error.message : 'An unknown error occurred'};
+    }
+}
+
+
+export async function authAsync(authData: { email: string, password: string }, mode: "login" | "signup"): Promise<any> {
+    try {
+        const response = await fetch(`http://localhost:8080/${mode}`, {
+            method: "POST",
+            body: JSON.stringify(authData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status === 422 || response.status === 401) {
+            return response;
+        }
+
+        if (!response.ok) {
+            throw json({message: `Could not authenticate`}, {status: 500});
+        } else {
+            return redirect('/');
+        }
+
     } catch (error) {
         return {isError: true, message: error instanceof Error ? error.message : 'An unknown error occurred'};
     }
