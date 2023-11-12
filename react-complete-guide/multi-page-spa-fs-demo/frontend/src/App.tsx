@@ -1,14 +1,11 @@
-import { ReactElement } from "react";
+import { lazy, ReactElement, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootLayout from "./pages/Root.tsx";
 import CustomError from "./pages/CustomError.tsx";
 import Home from "./pages/Home.tsx";
-import EventsPage from "./pages/Events.tsx";
 import NewEvent from "./pages/NewEvent.tsx";
 import EditEventPage from "./pages/EditEvent.tsx";
-import EventDetailPage from "./pages/EventDetail.tsx";
 import EventRootLayout from "./pages/EventsRoot.tsx";
-import { eventByIdLoaderAsync, eventsLoader } from "./helpers/loaders.ts";
 import {
     authActionAsync,
     deleteEventActionAsync,
@@ -20,6 +17,8 @@ import Authentication from "./pages/Authentication.tsx";
 import { logoutAction } from "./pages/Logout.tsx";
 import { checkAuthLoader, tokenLoader } from "./utils/auth.ts";
 
+const LazyEventsPage = lazy(() => import('./pages/Events.tsx'));
+const LazyEventDetailPage = lazy(() => import('./pages/EventDetail.tsx'));
 
 const router = createBrowserRouter([
     {
@@ -35,17 +34,17 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <EventsPage/>,
-                        loader: eventsLoader
+                        element: <Suspense fallback={<div>Loading...</div>}><LazyEventsPage/></Suspense>,
+                        loader: () => import('./helpers/loaders.ts').then((module) => module.eventsLoader())
                     },
                     {
                         path: ':eventId',
                         id: 'event-detail',
-                        loader: eventByIdLoaderAsync,
+                        loader: (meta) => import('./helpers/loaders.ts').then((module) => module.eventByIdLoaderAsync(meta)),
                         children: [
                             {
                                 index: true,
-                                element: <EventDetailPage/>,
+                                element: <Suspense fallback={<div>Loading...</div>}><LazyEventDetailPage/></Suspense>,
                                 action: deleteEventActionAsync
                             },
                             {
