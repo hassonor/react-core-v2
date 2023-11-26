@@ -4,7 +4,7 @@ import { getAuthToken } from "../utils/auth.ts";
 
 export async function fetchEventsAsync(): Promise<any> {
     try {
-        const response = await fetch('http://localhost:5050/events');
+        const response = await fetch('http://localhost:8080/events');
         if (!response.ok) {
             throw json({message: 'Could not fetch events'}, {status: 500});
         } else {
@@ -18,7 +18,7 @@ export async function fetchEventsAsync(): Promise<any> {
 
 export async function fetchEventByIdAsync(eventId: string): Promise<any> {
     try {
-        const response = await fetch(`http://localhost:5050/events/${eventId}`);
+        const response = await fetch(`http://localhost:8080/events/${eventId}`);
         if (!response.ok) {
             throw json({message: `Could not fetch event by id ${eventId}`}, {status: 500});
         } else {
@@ -60,7 +60,7 @@ export async function fetchNewEventAsync(eventData: TEvent, method: string, url:
 export async function deleteEventAsync(eventId: string, request: any): Promise<any> {
     try {
         const token = getAuthToken();
-        const response = await fetch(`http://localhost:5050/events/${eventId}`, {
+        const response = await fetch(`http://localhost:8080/events/${eventId}`, {
             method: request.method,
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -80,7 +80,7 @@ export async function deleteEventAsync(eventId: string, request: any): Promise<a
 
 export async function authAsync(authData: { email: string, password: string }, mode: "login" | "signup"): Promise<any> {
     try {
-        const response = await fetch(`http://localhost:5050/${mode}`, {
+        const response = await fetch(`http://localhost:8080/${mode}`, {
             method: "POST",
             body: JSON.stringify(authData),
             headers: {
