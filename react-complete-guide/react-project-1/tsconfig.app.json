@@ -27,6 +27,7 @@
   },
   "include": [
     "src",
-    "src/components/*"
+    "src/components/*",
+    "src/hooks/*"
   ]
 }
