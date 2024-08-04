@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import ProjectsSidebar from "./components/ProjectsSidebar";
 import NewProject from "./components/NewProject";
 import NoProjectSelected from "./components/NoProjectSelected";
@@ -18,7 +18,7 @@ export interface Task {
     id: number
 }
 
-// Define the shape of the state that will be used within the App component
+// Define the shape of the state that will be used within the Posts component
 interface ProjectState {
     selectedProjectId: number | null | undefined;
     projects: Project[];
